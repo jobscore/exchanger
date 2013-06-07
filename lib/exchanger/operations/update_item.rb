@@ -5,7 +5,7 @@ module Exchanger
   # http://msdn.microsoft.com/en-us/library/aa579673.aspx
   class UpdateItem < Operation
     class Request < Operation::Request
-      attr_accessor :items
+      attr_accessor :items, :send_meeting_invitations_or_cancellations
 
       # Reset request options to defaults.
       def reset
@@ -13,10 +13,13 @@ module Exchanger
       end
 
       def to_xml
+        update_item_params = { "xmlns" => NS["m"], "ConflictResolution" => "AlwaysOverwrite" }
+        update_item_params["SendMeetingInvitationsOrCancellations"] = send_meeting_invitations_or_cancellations if send_meeting_invitations_or_cancellations
+
         Nokogiri::XML::Builder.new do |xml|
           xml.send("soap:Envelope", "xmlns:soap" => NS["soap"], "xmlns:t" => NS["t"], "xmlns:xsi" => NS["xsi"], "xmlns:xsd" => NS["xsd"]) do
             xml.send("soap:Body") do
-              xml.UpdateItem("xmlns" => NS["m"], "ConflictResolution" => "AlwaysOverwrite") do
+              xml.UpdateItem(update_item_params) do
                 xml.ItemChanges do
                   items.each do |item|
                     item_change = item.to_xml_change
