@@ -94,6 +94,9 @@ module Exchanger
     def to_xml(options = {})
       doc = Nokogiri::XML::Document.new
       root = doc.create_element(tag_name)
+      if defined?(tag_attributes) # Meanwhile we lack a better way of using tag attributes...
+        self.tag_attributes.each {|key, value| root[key.to_s.camelize] = value }
+      end
       self.class.keys.each do |name|
         value = read_attribute(name)
         next if value.blank?
