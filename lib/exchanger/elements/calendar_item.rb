@@ -5,6 +5,7 @@ module Exchanger
   class CalendarItem < Item
     self.field_uri_namespace = :calendar
 
+    element :body, :type => Body
     # iCalendar properties
     element :uid, :name => "UID"
     element :recurrence_id, :type => Time
