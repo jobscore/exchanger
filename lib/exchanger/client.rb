@@ -1,7 +1,7 @@
 module Exchanger
   # SOAP Client for Exhange Web Services
   class Client
-    delegate :endpoint, :timeout, :username, :password, :debug, :insecure_ssl, :to => "Exchanger.config"
+    delegate :endpoint, :timeout, :username, :password, :debug, :insecure_ssl, :acts_as, :to => "Exchanger.config"
 
     def initialize
       @client = HTTPClient.new

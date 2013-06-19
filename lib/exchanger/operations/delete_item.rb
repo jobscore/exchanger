@@ -24,6 +24,15 @@ module Exchanger
 
         Nokogiri::XML::Builder.new do |xml|
           xml.send("soap:Envelope", "xmlns:soap" => NS["soap"], "xmlns:t" => NS["t"], "xmlns:xsi" => NS["xsi"], "xmlns:xsd" => NS["xsd"]) do
+            if Exchanger.config.acts_as != nil && Exchanger.config.acts_as != ''
+              xml.send("soap:Header") do
+                xml.send("t:ExchangeImpersonation") do
+                  xml.send("t:ConnectingSID") do
+                    xml.send "t:PrimarySmtpAddress", Exchanger.config.acts_as
+                  end
+                end
+              end
+            end
             xml.send("soap:Body") do
               xml.DeleteItem(delete_item_params) do
                 xml.ItemIds do

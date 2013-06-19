@@ -16,6 +16,15 @@ module Exchanger
       def to_xml
         Nokogiri::XML::Builder.new do |xml|
           xml.send("soap:Envelope", "xmlns:soap" => NS["soap"]) do
+            if Exchanger.config.acts_as != nil && Exchanger.config.acts_as != ''
+              xml.send("soap:Header") do
+                xml.send("t:ExchangeImpersonation") do
+                  xml.send("t:ConnectingSID") do
+                    xml.send "t:PrimarySmtpAddress", Exchanger.config.acts_as
+                  end
+                end
+              end
+            end
             xml.send("soap:Body") do
               xml.GetFolder("xmlns" => NS["m"], "xmlns:t" => NS["t"]) do
                 xml.FolderShape do
