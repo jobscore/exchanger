@@ -16,12 +16,12 @@ module Exchanger
 
       def to_xml
         Nokogiri::XML::Builder.new do |xml|
-          xml.send("soap:Envelope", "xmlns:soap" => NS["soap"]) do
+          xml.send("soap:Envelope", "xmlns:soap" => NS["soap"], "xmlns:t" => NS["t"]) do
             if Exchanger.config.acts_as != nil && Exchanger.config.acts_as != ''
-              xml.send("soap:Header") do
-                xml.send("t:ExchangeImpersonation") do
-                  xml.send("t:ConnectingSID") do
-                    xml.send "t:PrimarySmtpAddress", Exchanger.config.acts_as
+              xml["soap"].Header do
+                xml["t"].ExchangeImpersonation do
+                  xml["t"].ConnectingSID do
+                    xml["t"].PrimarySmtpAddress Exchanger.config.acts_as
                   end
                 end
               end
