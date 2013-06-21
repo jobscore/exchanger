@@ -9,7 +9,7 @@ module Exchanger
 
     # Temp static tag attribute
     def tag_attributes
-      { :body_type => "HTML" }
+      { :body_type => "Text" }
     end
   end
 end
