@@ -31,7 +31,11 @@ module Exchanger
 
     def field_uri
       if name == :text
-        field_uri_namespace
+        if field_uri_namespace == 'Body'
+          "item:#{field_uri_namespace}"
+        else
+          field_uri_namespace
+        end
       else
         "#{field_uri_namespace}:#{tag_name}"
       end
@@ -96,8 +100,13 @@ module Exchanger
     # Convert Ruby value to XML
     def to_xml(value, options = {})
       if value.is_a?(Exchanger::Element)
-        value.tag_name = tag_name
-        value.to_xml(options)
+        if value.is_a?(Exchanger::Body)
+          value.tag_name = field_uri_namespace
+          value.to_xml(options)
+        else
+          value.tag_name = tag_name
+          value.to_xml(options)
+        end
       else
         doc = Nokogiri::XML::Document.new
         root = doc.create_element(tag_name)
