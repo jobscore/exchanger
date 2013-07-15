@@ -101,7 +101,8 @@ module Exchanger
     def to_xml(value, options = {})
       if value.is_a?(Exchanger::Element)
         if value.is_a?(Exchanger::Body)
-          value.tag_name = field_uri_namespace
+          # tag_name isn't being correctly set on Update operation -- it's being set as "Text"
+          value.tag_name = "Body"
           value.to_xml(options)
         else
           value.tag_name = tag_name
