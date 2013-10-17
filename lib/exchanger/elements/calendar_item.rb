@@ -59,7 +59,7 @@ module Exchanger
 
     def create
       CreateItem.run(:folder_id => parent_folder_id.id, :items => [self],
-                     :send_meeting_invitations => "SendToNone")
+                     :send_meeting_invitations => "SendToAllAndSaveCopy")
     end
   end
 end
