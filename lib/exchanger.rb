@@ -20,6 +20,7 @@ require "exchanger/persistence"
 
 # Elements
 require "exchanger/element"
+require "exchanger/elements/reference_identifier"
 require "exchanger/elements/identifier"
 require "exchanger/elements/mailbox"
 require "exchanger/elements/single_recipient"
@@ -52,6 +53,7 @@ require "exchanger/elements/task"
 require "exchanger/elements/distribution_list"
 require "exchanger/elements/calendar_event_details"
 require "exchanger/elements/calendar_event"
+require "exchanger/elements/accept_item"
 
 # Operations
 require "exchanger/operation"
