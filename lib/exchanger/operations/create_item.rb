@@ -11,8 +11,7 @@ module Exchanger
   # http://msdn.microsoft.com/en-us/library/aa563797.aspx
   class CreateItem < Operation
     class Request < Operation::Request
-      attr_accessor :folder_id, :email_address, :items,
-        :send_meeting_invitations
+      attr_accessor :folder_id, :email_address, :items, :send_meeting_invitations, :message_disposition
 
       # Reset request options to defaults.
       def reset
@@ -22,6 +21,14 @@ module Exchanger
       end
 
       def to_xml
+        create_item_params = {"xmlns" => NS["m"]}
+        if send_meeting_invitations.present?
+          create_item_params['SendMeetingInvitations'] = send_meeting_invitations
+        end
+        if message_disposition.present?
+          create_item_params['MessageDisposition'] = message_disposition
+        end
+
         Nokogiri::XML::Builder.new do |xml|
           xml.send("soap:Envelope", "xmlns:soap" => NS["soap"], "xmlns:t" => NS["t"], "xmlns:xsi" => NS["xsi"], "xmlns:xsd" => NS["xsd"]) do
             if Exchanger.config.acts_as != nil && Exchanger.config.acts_as != ''
@@ -34,10 +41,9 @@ module Exchanger
               end
             end
             xml.send("soap:Body") do
-              xml.CreateItem("xmlns" => NS["m"],
-                            'SendMeetingInvitations' => send_meeting_invitations) do
-                xml.SavedItemFolderId do
-                  if folder_id.is_a?(Symbol)
+              xml.CreateItem(create_item_params) do
+                if folder_id.is_a?(Symbol)
+                  xml.SavedItemFolderId do
                     xml.send("t:DistinguishedFolderId", "Id" => folder_id) do
                       if email_address
                         xml.send("t:Mailbox") do
@@ -45,7 +51,9 @@ module Exchanger
                         end
                       end
                     end
-                  else
+                  end
+                elsif !folder_id
+                  xml.SavedItemFolderId do
                     xml.send("t:FolderId", "Id" => folder_id)
                   end
                 end
