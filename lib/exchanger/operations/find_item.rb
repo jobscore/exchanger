@@ -26,6 +26,9 @@ module Exchanger
                 end
               end
             end
+            xml.send("soap:Header") do
+              xml.send("t:RequestServerVersion", "Version" => "Exchange2010")
+            end
             xml.send("soap:Body") do
               xml.FindItem("xmlns" => NS["m"], "xmlns:t" => NS["t"], "Traversal" => traversal.to_s.camelize) do
                 xml.ItemShape do
