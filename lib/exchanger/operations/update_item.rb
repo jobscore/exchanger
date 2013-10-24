@@ -27,6 +27,9 @@ module Exchanger
                 end
               end
             end
+            xml.send("soap:Header") do
+              xml.send("t:RequestServerVersion", "Version" => "Exchange2010")
+            end
             xml.send("soap:Body") do
               xml.UpdateItem(update_item_params) do
                 xml.ItemChanges do

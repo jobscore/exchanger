@@ -33,6 +33,9 @@ module Exchanger
                 end
               end
             end
+            xml.send("soap:Header") do
+              xml.send("t:RequestServerVersion", "Version" => "Exchange2010")
+            end
             xml.send("soap:Body") do
               xml.DeleteItem(delete_item_params) do
                 xml.ItemIds do
