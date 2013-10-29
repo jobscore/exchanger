@@ -47,22 +47,22 @@ module Exchanger
                    xml.send("t:Bias", (minutes_of_utc_offset * -1))
                    # if daylight savings time is active for current time zone
                    # How to find correct standard time and daylight saving time configuration
-                   if current_tz.dst?
-                     xml.send("t:StandardTime") do
-                       xml.send("t:Bias", 0)
-                       xml.send("t:Time", "04:00:00")
-                       xml.send("t:DayOrder", 5)
-                       xml.send("t:Month", 10)
-                       xml.send("t:DayOfWeek", "Sunday")
-                     end
-                     xml.send("t:DaylightTime") do
-                       xml.send("t:Bias", (minutes_of_std_offset * -1))
-                       xml.send("t:Time", "03:00:00")
-                       xml.send("t:DayOrder", 5)
-                       xml.send("t:Month", 3)
-                       xml.send("t:DayOfWeek", "Sunday")
-                     end
+                   # if current_tz.dst?
+                   xml.send("t:StandardTime") do
+                     xml.send("t:Bias", 0)
+                     xml.send("t:Time", "04:00:00")
+                     xml.send("t:DayOrder", 5)
+                     xml.send("t:Month", 10)
+                     xml.send("t:DayOfWeek", "Sunday")
                    end
+                   xml.send("t:DaylightTime") do
+                     xml.send("t:Bias", (minutes_of_std_offset * -1))
+                     xml.send("t:Time", "03:00:00")
+                     xml.send("t:DayOrder", 5)
+                     xml.send("t:Month", 3)
+                     xml.send("t:DayOfWeek", "Sunday")
+                   end
+                   # end
                  end
                  xml.send("m:MailboxDataArray") do
                    xml.send("t:MailboxData") do
