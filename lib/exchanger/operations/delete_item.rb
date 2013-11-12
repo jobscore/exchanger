@@ -24,11 +24,16 @@ module Exchanger
 
         Nokogiri::XML::Builder.new do |xml|
           xml.send("soap:Envelope", "xmlns:soap" => NS["soap"], "xmlns:t" => NS["t"], "xmlns:xsi" => NS["xsi"], "xmlns:xsd" => NS["xsd"]) do
-            if Exchanger.config.acts_as != nil && Exchanger.config.acts_as != ''
+            if Exchanger.config.version || Exchanger.config.acts_as
               xml["soap"].Header do
-                xml["t"].ExchangeImpersonation do
-                  xml["t"].ConnectingSID do
-                    xml["t"].PrimarySmtpAddress Exchanger.config.acts_as
+                if Exchanger.config.version
+                  xml["t"].RequestServerVersion("Version" => Exchanger.config.version)
+                end
+                if Exchanger.config.acts_as
+                  xml["t"].ExchangeImpersonation do
+                    xml["t"].ConnectingSID do
+                      xml["t"].PrimarySmtpAddress Exchanger.config.acts_as
+                    end
                   end
                 end
               end
