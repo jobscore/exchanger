@@ -41,6 +41,8 @@ require "exchanger/elements/contacts_folder"
 require "exchanger/elements/tasks_folder"
 require "exchanger/elements/search_folder"
 # Item elements
+require "exchanger/elements/extended_field_uri"
+require "exchanger/elements/extended_property"
 require "exchanger/elements/item"
 require "exchanger/elements/message"
 require "exchanger/elements/calendar_item"

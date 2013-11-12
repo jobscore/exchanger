@@ -31,6 +31,7 @@ module Exchanger
     element :required_attendees, :type => [Attendee]
     element :optional_attendees, :type => [Attendee]
     element :resources, :type => [Attendee]
+    element :extended_property, :type => ExtendedProperty
     # Conflicting and adjacent meetings
     element :conflicting_meeting_count, :type => Integer
     element :adjacent_meeting_count, :type => Integer
