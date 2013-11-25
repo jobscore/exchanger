@@ -6,10 +6,6 @@ module Exchanger
     self.field_uri_namespace = :'Body'
 
     element :text
-
-    # Temp static tag attribute
-    def tag_attributes
-      { :body_type => "Text" }
-    end
+    key :body_type #HTML or Text
   end
 end
