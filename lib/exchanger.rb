@@ -69,6 +69,8 @@ require "exchanger/operations/create_item"
 require "exchanger/operations/update_item"
 require "exchanger/operations/delete_item"
 require "exchanger/operations/resolve_names"
+require "exchanger/operations/get_room_list"
+require "exchanger/operations/get_rooms"
 require "exchanger/operations/expand_dl"
 require "exchanger/operations/get_user_availability"
 
