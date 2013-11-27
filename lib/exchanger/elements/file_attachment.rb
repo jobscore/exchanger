@@ -13,6 +13,5 @@ module Exchanger
     element :is_inline
     element :is_contact_photo
     element :content
-
-  end
+  end    
 end

@@ -31,19 +31,22 @@ module Exchanger
         end_date_time = end_time.strftime("%Y-%m-%dT%H:%M:%S")
 
         Nokogiri::XML::Builder.new do |xml|
-           xml.send("soap:Envelope", "xmlns:xsi" => NS["xsi"], "xmlns:xsd" => NS["xsd"], "xmlns:soap" => NS["soap"], "xmlns:t" => NS["t"], "xmlns:m" => NS["m"]) do
-            if Exchanger.config.acts_as != nil && Exchanger.config.acts_as != ''
+          xml.send("soap:Envelope", "xmlns:xsi" => NS["xsi"], "xmlns:xsd" => NS["xsd"], "xmlns:soap" => NS["soap"], "xmlns:t" => NS["t"], "xmlns:m" => NS["m"]) do
+            if Exchanger.config.version || Exchanger.config.acts_as
               xml["soap"].Header do
-                xml["t"].ExchangeImpersonation do
-                  xml["t"].ConnectingSID do
-                    xml["t"].PrimarySmtpAddress Exchanger.config.acts_as
+                if Exchanger.config.version
+                  xml["t"].RequestServerVersion("Version" => Exchanger.config.version)
+                end
+                if Exchanger.config.acts_as
+                  xml["t"].ExchangeImpersonation do
+                    xml["t"].ConnectingSID do
+                      xml["t"].PrimarySmtpAddress Exchanger.config.acts_as
+                    end
                   end
                 end
               end
             end
-            xml.send("soap:Header") do
-              xml.send("t:RequestServerVersion", "Version" => "Exchange2010")
-            end
+
              xml.send("soap:Body") do
                xml.send("m:GetUserAvailabilityRequest") do
                  xml.send("t:TimeZone") do
