@@ -30,6 +30,7 @@ module Exchanger
                 end
               end
             end
+
             xml.send("soap:Body") do
               xml.GetFolder("xmlns" => NS["m"], "xmlns:t" => NS["t"]) do
                 xml.FolderShape do

@@ -46,6 +46,7 @@ module Exchanger
                 end
               end
             end
+
              xml.send("soap:Body") do
                xml.send("m:GetUserAvailabilityRequest") do
                  xml.send("t:TimeZone") do

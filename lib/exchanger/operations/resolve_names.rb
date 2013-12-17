@@ -28,6 +28,7 @@ module Exchanger
                 end
               end
             end
+
             xml.send("soap:Body") do
               xml.ResolveNames("xmlns" => NS["m"], "xmlns:t" => NS["t"], "ReturnFullContactData" => "true") do
                 xml.UnresolvedEntry name

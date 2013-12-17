@@ -45,6 +45,7 @@ module Exchanger
                 end
               end
             end
+            
             xml.send("soap:Body") do
               xml.CreateItem(create_item_params) do
                 if folder_id.is_a?(Symbol)

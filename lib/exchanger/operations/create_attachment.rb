@@ -1,26 +1,19 @@
 module Exchanger
-  # The DeleteItem operation deletes items in the Exchanger store.
+  # The CreateAttachment element defines a request to create an attachment to an item in the Exchange store.
   # 
-  # You can use the DeleteItem operation to delete the following:
-  # * Calendar items
-  # * E-mail messages
-  # * Meeting requests
-  # * Tasks
-  # * Contacts
-  # 
-  # http://msdn.microsoft.com/en-us/library/aa580484.aspx
-  class DeleteItem < Operation
+  # http://msdn.microsoft.com/en-us/library/aa565931(v=exchg.80).aspx
+  class CreateAttachment < Operation
     class Request < Operation::Request
-      attr_accessor :item_ids, :send_meeting_cancellations
+      attr_accessor :parent_item_id, :attachments
 
       # Reset request options to defaults.
       def reset
-        @item_ids = []
+        @parent_item_id = nil
+        @attachments = nil
       end
 
       def to_xml
-        delete_item_params = { "xmlns" => NS["m"], "DeleteType" => "HardDelete" }
-        delete_item_params["SendMeetingCancellations"] = send_meeting_cancellations if send_meeting_cancellations
+        create_item_params = {"xmlns" => NS["m"], "xmlns:t" => NS["t"]}
 
         Nokogiri::XML::Builder.new do |xml|
           xml.send("soap:Envelope", "xmlns:soap" => NS["soap"], "xmlns:t" => NS["t"], "xmlns:xsi" => NS["xsi"], "xmlns:xsd" => NS["xsd"]) do
@@ -40,10 +33,15 @@ module Exchanger
             end
 
             xml.send("soap:Body") do
-              xml.DeleteItem(delete_item_params) do
-                xml.ItemIds do
-                  item_ids.each do |item_id|
-                    xml["t"].ItemId("Id" => item_id)
+              xml.CreateAttachment(create_item_params) do
+                xml << @parent_item_id.to_xml.to_s
+
+                xml.Attachments do
+                  @attachments.each do |item|
+                    item_xml = item.to_xml
+                    item_xml.add_namespace_definition("t", NS["t"])
+                    item_xml.namespace = item_xml.namespace_definitions[0]
+                    xml << item_xml.to_s
                   end
                 end
               end
@@ -54,6 +52,12 @@ module Exchanger
     end
 
     class Response < Operation::Response
+      def item_ids
+        to_xml.to_s
+        #to_xml.xpath(".//t:ItemId", NS).map do |node|
+        #  Identifier.new_from_xml(node)
+        #end
+      end
     end
   end
 end

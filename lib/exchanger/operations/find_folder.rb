@@ -32,6 +32,7 @@ module Exchanger
                 end
               end
             end
+
             xml.send("soap:Body") do
               xml.FindFolder("xmlns" => NS["m"], "xmlns:t" => NS["t"], "Traversal" => traversal.to_s.camelize) do
                 xml.FolderShape do

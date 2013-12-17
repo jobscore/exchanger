@@ -9,5 +9,6 @@ module Exchanger
     def tag_name
       "ExtendedFieldURI"
     end
+
   end
 end
