@@ -129,6 +129,7 @@ module Exchanger
 
     # Builds XML Set/Delete fields for update operations.
     def to_xml_updates
+      exception_arrays = %w(required_attendees) # exceptions for the  DeleteItemField element, those attributes are actually overwritten
       doc = Nokogiri::XML::Document.new
       root = doc.create_element("Updates")
       self.class.elements.each do |name, field|
@@ -144,15 +145,20 @@ module Exchanger
               element_wrapper << element_xml
               set_item_field << element_wrapper
               root << set_item_field
-            else
+            elsif !exception_arrays.include?(name.to_s)
               delete_item_field = doc.create_element("DeleteItemField")
               delete_item_field << field_uri_xml
               root << delete_item_field
             end
+             if exception_arrays.include?(name.to_s)
+              puts "FIELD_URI_XML #{field_uri_xml.inspect}"
+              puts "ELEMENT_XML #{element_xml.inspect}"
+              puts "-" * 80
+            end
           end
         end
         # Delete removed phone numbers, etc
-        if changes.include?(name.to_s) && value.is_a?(Array)
+        if changes.include?(name.to_s) && value.is_a?(Array) && !exception_arrays.include?(name.to_s)
           old_values, new_values = changes[name.to_s]
           deleted_values = old_values - new_values
           field.to_xml_updates(deleted_values) do |field_uri_xml, _|

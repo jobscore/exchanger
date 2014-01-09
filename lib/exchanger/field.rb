@@ -36,6 +36,8 @@ module Exchanger
         else
           field_uri_namespace
         end
+      elsif name == :mailbox
+        'calendar:RequiredAttendees'
       else
         "#{field_uri_namespace}:#{tag_name}"
       end
@@ -61,7 +63,8 @@ module Exchanger
     def to_xml_updates(value)
       return if options[:readonly]
       doc = Nokogiri::XML::Document.new
-      if value.is_a?(Array)
+      # TODO: re: Exchanger:Attendee, similar with element.rb:132, shouldn't we fix that?
+      if value.is_a?(Array) && !value.first.is_a?(Exchanger::Attendee)
         value.each do |sub_value|
           sub_field.to_xml_updates(sub_value) do |field_uri_xml, element_xml|
             element_wrapper = doc.create_element(sub_field.tag_name)
