@@ -4,12 +4,13 @@ module Exchanger
   # http://msdn.microsoft.com/en-us/library/aa565931(v=exchg.80).aspx
   class CreateAttachment < Operation
     class Request < Operation::Request
-      attr_accessor :parent_item_id, :attachments
+      attr_accessor :parent_item_id, :attachments, :email_address
 
       # Reset request options to defaults.
       def reset
         @parent_item_id = nil
         @attachments = nil
+        @email_address = nil
       end
 
       def to_xml
@@ -33,6 +34,7 @@ module Exchanger
             end
 
             xml.send("soap:Body") do
+              # TODO: add email_address so Delegation works
               xml.CreateAttachment(create_item_params) do
                 xml << @parent_item_id.to_xml.to_s
 
