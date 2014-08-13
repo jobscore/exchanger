@@ -6,8 +6,8 @@ require 'tzinfo'
 
 require "active_support/core_ext"
 require "nokogiri"
-require "httpclient"
-require "net/ntlm"
+require 'net/http'
+require 'ntlm/http'
 
 require "exchanger/version"
 require "exchanger/config"
@@ -91,7 +91,7 @@ module Exchanger
       config = Config.instance
       block_given? ? yield(config) : config
     end
-    
+
     alias :config :configure
   end
 end

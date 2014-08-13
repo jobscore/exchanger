@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "activesupport", [">= 2.2.2"]
   s.add_runtime_dependency "nokogiri", [">= 1.3.0"]
   s.add_runtime_dependency "httpclient", [">= 2.1.5.2"]
-  s.add_runtime_dependency "rubyntlm", [">= 0.1.1"]
+  s.add_runtime_dependency "ruby-ntlm", [">= 0.0.1"]
   s.add_runtime_dependency "tzinfo", [">= 0.3.33"]
 
   s.add_development_dependency "rake"
