@@ -17,7 +17,8 @@ module Exchanger
     # Does the actual HTTP level interaction.
     def request(post_body, headers)
       request = Net::HTTP::Post.new(endpoint_uri.path, headers)
-      request.ntlm_auth username, nil, password if username
+      #request.ntlm_auth username, nil, password if username
+      request.basic_auth username, password if username
       request.body = post_body
       response = @client.request(request)
       { :status => response.code.to_i, :body => response.body, :content_type => response.content_type }
