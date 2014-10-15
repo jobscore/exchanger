@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 module Exchanger
   class Client
-    delegate :endpoint, :timeout, :username, :password, :debug, :insecure_ssl, :acts_as, :version, :auth_type, to: 'Exchanger.config'
+    delegate :endpoint, :timeout, :username, :password, :domain, :debug, :insecure_ssl, :acts_as, :version, :auth_type, to: 'Exchanger.config'
 
     def endpoint_uri
       @uri ||= URI.parse(endpoint)
@@ -28,7 +28,7 @@ module Exchanger
     def authenticate(request)
       case auth_type.to_sym
       when :basic_auth then request.basic_auth(username, password)
-      when :ntlm_auth then request.ntlm_auth(username, nil, password)
+      when :ntlm_auth then request.ntlm_auth(username, domain, password)
       end
     end
   end
