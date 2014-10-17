@@ -26,6 +26,10 @@ module Exchanger
     private
 
     def authenticate(request)
+      # TODO: remove this fix for Hearst
+      if username == 'svcjobseeker'
+        domain = 'RESOURCE'
+      end
       case auth_type.to_sym
       when :basic_auth then request.basic_auth(username, password)
       when :ntlm_auth then request.ntlm_auth(username, domain, password)
