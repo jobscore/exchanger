@@ -11,6 +11,7 @@ module Exchanger
       @client = Net::HTTP.new(endpoint_uri.host, endpoint_uri.port)
       @client.set_debug_output STDERR if debug
       @client.use_ssl = true
+      @client.ssl_version = :TLSv1
       @client.verify_mode = OpenSSL::SSL::VERIFY_NONE if insecure_ssl
     end
 
