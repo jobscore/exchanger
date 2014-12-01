@@ -82,7 +82,8 @@ module Exchanger
     "xsd"  => "http://www.w3.org/2001/XMLSchema",
     "soap" => "http://schemas.xmlsoap.org/soap/envelope/",
     "m"    => "http://schemas.microsoft.com/exchange/services/2006/messages",
-    "t"    => "http://schemas.microsoft.com/exchange/services/2006/types"
+    "t"    => "http://schemas.microsoft.com/exchange/services/2006/types",
+    "e"    => "http://schemas.microsoft.com/exchange/services/2006/errors"
   }
 
   class << self

@@ -59,11 +59,12 @@ module Exchanger
     end
 
     class ResponseError < StandardError
-      attr_reader :response_code
+      attr_reader :response_code, :response_value
 
-      def initialize(message, response_code)
+      def initialize(message, response_code, response_value)
         super message
         @response_code = response_code
+        @response_value = response_value
       end
     end
 
@@ -85,7 +86,7 @@ module Exchanger
         fault_node = to_xml.xpath(".//faultstring")
         unless fault_node.empty?
           error_msg = fault_node.text
-          raise ResponseError.new(error_msg, 0)
+          raise ResponseError.new(error_msg, to_xml.xpath('//e:ResponseCode/text()', Exchanger::NS).to_s, to_xml.xpath('//t:Value/text()', Exchanger::NS).to_s)
         end
       end
 
