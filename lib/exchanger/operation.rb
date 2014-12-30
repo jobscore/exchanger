@@ -61,7 +61,7 @@ module Exchanger
     class ResponseError < StandardError
       attr_reader :response_code, :response_value
 
-      def initialize(message, response_code, response_value)
+      def initialize(message, response_code, response_value = nil)
         super message
         @response_code = response_code
         @response_value = response_value
