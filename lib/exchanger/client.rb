@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
 module Exchanger
   class Client
-    delegate :endpoint, :timeout, :username, :password, :domain, :debug, :insecure_ssl, :acts_as, :version, :auth_type, to: 'Exchanger.config'
+    delegate :endpoint, :timeout, :username, :password, :domain, :debug, :insecure_ssl,
+             :acts_as, :version, :auth_type, :ssl_version, to: 'Exchanger.config'
 
     def endpoint_uri
       @uri ||= URI.parse(endpoint)
@@ -11,7 +12,7 @@ module Exchanger
       @client = Net::HTTP.new(endpoint_uri.host, endpoint_uri.port)
       @client.set_debug_output STDERR if debug
       @client.use_ssl = true
-      @client.ssl_version = :TLSv1
+      @client.ssl_version = ssl_version || :TLSv1
       @client.verify_mode = OpenSSL::SSL::VERIFY_NONE if insecure_ssl
     end
 
