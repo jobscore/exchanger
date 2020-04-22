@@ -2,7 +2,7 @@
 module Exchanger
   class Client
     delegate :endpoint, :timeout, :username, :password, :domain, :debug, :insecure_ssl,
-             :acts_as, :version, :auth_type, :ssl_version, :access_token to: 'Exchanger.config'
+             :acts_as, :version, :auth_type, :ssl_version, :access_token, to: 'Exchanger.config'
 
     def endpoint_uri
       @uri ||= URI.parse(endpoint)
