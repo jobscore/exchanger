@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = %q{Ruby library for accessing Microsoft Exchange using Exchange Web Services}
   s.summary     = s.description
 
-  s.rubygems_version = "1.3.7"
+  s.rubygems_version = "1.3.6"
 
   s.add_runtime_dependency "activesupport", [">= 2.2.2"]
   s.add_runtime_dependency "nokogiri", [">= 1.3.0"]
