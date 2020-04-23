@@ -18,6 +18,7 @@ module Exchanger
 
     # Does the actual HTTP level interaction.
     def request(post_body, headers)
+      puts(endpoint_uri.path)
       request = Net::HTTP::Post.new(endpoint_uri.path, headers)
       authenticate(request) if username
       request.body = post_body
