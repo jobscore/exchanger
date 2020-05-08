@@ -31,7 +31,7 @@ module Exchanger
       case auth_type.to_sym
       when :basic_auth then request.basic_auth(username, password)
       when :ntlm_auth then request.ntlm_auth(username, domain, password)
-      when :oauth_auth then request.oauth!(@client, self, access_token)
+      when :oauth_auth then request.add_field('Authorization', "Bearer #{access_token}")
       end
     end
   end
