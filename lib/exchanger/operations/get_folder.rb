@@ -1,6 +1,6 @@
 module Exchanger
   # The GetFolder operation gets folders from the Exchanger store.
-  # 
+  #
   # http://msdn.microsoft.com/en-us/library/aa580274.aspx
   class GetFolder < Operation
     class Request < Operation::Request
@@ -25,6 +25,7 @@ module Exchanger
                   xml["t"].ExchangeImpersonation do
                     xml["t"].ConnectingSID do
                       xml["t"].PrimarySmtpAddress Exchanger.config.acts_as
+                      xml["t"].SmtpAddress Exchanger.config.acts_as
                     end
                   end
                 end
